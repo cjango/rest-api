@@ -10,7 +10,7 @@ class RestServiceProvider extends IlluminateServiceProvider
 {
 
     /**
-     * 命令操作
+     * 命令行操作
      * @var array
      */
     protected $commands = [
@@ -40,7 +40,9 @@ class RestServiceProvider extends IlluminateServiceProvider
         // 修改默认看守器的配置
         $this->app['config']->set('auth.guards.api', $this->app['config']->get('rest.guard'));
         // Passport 的缓存配置
-        $this->app['config']->set('passport.cache', $this->app['config']->get('rest.cache'));
+        if ($this->app['config']->get('rest.passport_cache.enable')) {
+            $this->app['config']->set('passport.cache', $this->app['config']->get('rest.cache'));
+        }
     }
 
     /**
@@ -51,6 +53,12 @@ class RestServiceProvider extends IlluminateServiceProvider
     public function register()
     {
         $this->commands($this->commands);
+
+        $this->registerRouteMiddleware();
+
+        $this->app->singleton('rest', function ($app) {
+            return new Rest();
+        });
     }
 
     /**
