@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Jason\Rest\Http\Middleware\AcceptHeader;
 
-class ServiceProvider extends IlluminateServiceProvider
+class RestServiceProvider extends IlluminateServiceProvider
 {
 
     /**
