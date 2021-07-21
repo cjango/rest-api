@@ -2,7 +2,9 @@
 
 namespace Jason\Rest;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Jason\Rest\Http\Middleware\AcceptHeader;
 
 class RestServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,14 @@ class RestServiceProvider extends ServiceProvider
      */
     protected $commands = [
         Console\RestCommand::class,
+    ];
+
+    /**
+     * 路由中间件
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'accept' => AcceptHeader::class,
     ];
 
     public function boot()
@@ -32,6 +42,18 @@ class RestServiceProvider extends ServiceProvider
 
         // 注册命令行工具
         $this->commands($this->commands);
+    }
+
+    /**
+     * Notes   : 注册路由中间件
+     * @Date   : 2021/7/21 3:29 下午
+     * @Author : < Jason.C >
+     */
+    public function registerRouteMiddleware()
+    {
+        foreach ($this->routeMiddleware as $key => $middleware) {
+            Route::aliasMiddleware($key, $middleware);
+        }
     }
 
     public function provides(): array

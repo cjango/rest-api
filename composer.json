@@ -15,7 +15,8 @@
         "illuminate/events": "^7.0|^8.0",
         "illuminate/filesystem": "^7.0|^8.0",
         "illuminate/support": "^7.0|^8.0",
-        "laravel/passport": "^10.1"
+        "laravel/passport": "^10.1",
+        "illuminate/routing": "^8.51"
     },
     "autoload-dev": {
         "psr-4": {
