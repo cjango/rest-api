@@ -12,8 +12,8 @@
 
 ## 功能特性
 
-- [x] 
-- [x] 
+- [x] 集成 `Laravel Passport` 并实现自动部署
+- [x] 自动创建 `Api` 相关目录
 - [ ] 
 
 ## 环境
@@ -24,7 +24,7 @@
 ## 安装
 
 ```shell
-composer install
+composer require jasonc/rest-api
 ```
 
 ```shell
