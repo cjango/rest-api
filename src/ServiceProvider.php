@@ -3,10 +3,10 @@
 namespace Jason\Rest;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Jason\Rest\Http\Middleware\AcceptHeader;
 
-class RestServiceProvider extends ServiceProvider
+class ServiceProvider extends IlluminateServiceProvider
 {
 
     /**

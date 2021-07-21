@@ -28,7 +28,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Jason\\Rest\\RestServiceProvider"
+                "Jason\\Rest\\ServiceProvider"
             ],
             "aliases": {
                 "API": "Jason\\Rest\\Facade\\Rest"
