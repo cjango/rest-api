@@ -18,16 +18,21 @@
         "illuminate/support": "^7.0|^8.0",
         "laravel/passport": "^10.1"
     },
-    "autoload-dev": {
+    "autoload": {
         "psr-4": {
-            "Jason\\": "src/"
-        }
+            "Jason\\Rest\\": "src/"
+        },
+        "files": [
+        ]
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Jason\\Rest\\RestServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Rest": "Jason\\Rest\\Facade\\Rest"
+            }
         }
     }
 }
