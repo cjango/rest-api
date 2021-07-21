@@ -25,22 +25,31 @@ class RestServiceProvider extends IlluminateServiceProvider
         'accept' => AcceptHeader::class,
     ];
 
+    /**
+     * Notes   : 部署时运行
+     * @Date   : 2021/7/21 4:17 下午
+     * @Author : < Jason.C >
+     */
     public function boot()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config' => $this->app->configPath()], 'rest-api-config');
         }
-    }
-
-    public function register()
-    {
         // 合并配置文件
         $this->mergeConfigFrom(__DIR__ . '/../config/rest.php', 'rest');
-
         // 修改默认看守器的配置
-        $this->app['config']->set('auth.guards.api', $this->config['rest']->get('rest.guard'));
+        $this->app['config']->set('auth.guards.api', $this->app['config']->get('rest.guard'));
+        // Passport 的缓存配置
+        $this->app['config']->set('passport.cache', $this->app['config']->get('rest.cache'));
+    }
 
-        // 注册命令行工具
+    /**
+     * Notes   : 注册组件
+     * @Date   : 2021/7/21 4:17 下午
+     * @Author : < Jason.C >
+     */
+    public function register()
+    {
         $this->commands($this->commands);
     }
 
