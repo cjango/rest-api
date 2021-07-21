@@ -7,7 +7,7 @@ class REST extends Facade
 
     protected static function getFacadeAccessor(): string
     {
-        return 'restful';
+        return 'rest';
     }
 
 }

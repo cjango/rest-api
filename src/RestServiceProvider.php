@@ -10,18 +10,20 @@ class RestServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([__DIR__ . '/../config' => config_path()], 'restful-api-config');
+            $this->publishes([__DIR__ . '/../config' => $this->app->configPath()], 'rest-api-config');
         }
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/restful.php', 'restful');
+        $this->mergeConfigFrom(__DIR__ . '/../config/rest.php', 'rest');
+
+        $this->app['config']->set('auth.guards.api', $this->config['rest']->get('rest.guard'));
     }
 
     public function provides(): array
     {
-        return ['restful'];
+        return ['rest'];
     }
 
 }
