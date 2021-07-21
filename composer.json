@@ -1,0 +1,36 @@
+{
+    "name": "jasonc/rest-api",
+    "description": "RESTful API package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jason.Chen",
+            "email": "chenjxlg@163.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "illuminate/console": "^7.0|^8.0",
+        "illuminate/events": "^7.0|^8.0",
+        "illuminate/filesystem": "^7.0|^8.0",
+        "illuminate/support": "^7.0|^8.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jason\\Rest\\": "src/"
+        },
+        "files": [
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RestServiceProvider"
+            ],
+            "aliases": {
+                "API": "Jason\\Rest\\Facade\\Rest"
+            }
+        }
+    }
+}
