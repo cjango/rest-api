@@ -2,6 +2,7 @@
 
 namespace Jason\Rest;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Jason\Rest\Http\Middleware\AcceptHeader;
@@ -13,7 +14,7 @@ class RestServiceProvider extends IlluminateServiceProvider
      * 命令行操作
      * @var array
      */
-    protected $commands = [
+    protected array $commands = [
         Console\RestCommand::class,
     ];
 
@@ -21,7 +22,7 @@ class RestServiceProvider extends IlluminateServiceProvider
      * 路由中间件
      * @var array
      */
-    protected $routeMiddleware = [
+    protected array $routeMiddleware = [
         'accept' => AcceptHeader::class,
     ];
 
@@ -30,7 +31,7 @@ class RestServiceProvider extends IlluminateServiceProvider
      * @Date   : 2021/7/21 4:17 下午
      * @Author : < Jason.C >
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config' => $this->app->configPath()], 'rest-api-config');
@@ -38,7 +39,7 @@ class RestServiceProvider extends IlluminateServiceProvider
         // 合并配置文件
         $this->mergeConfigFrom(__DIR__ . '/../config/rest.php', 'rest');
         // 修改默认看守器的配置
-        $this->app['config']->set('auth.guards.api', $this->app['config']->get('rest.guard'));
+        $this->app['config']->set('auth.guards.api.driver', $this->app['config']->get('rest.guard'));
         // Passport 的缓存配置
         if ($this->app['config']->get('rest.passport_cache.enable')) {
             $this->app['config']->set('passport.cache', $this->app['config']->get('rest.cache'));
@@ -50,14 +51,14 @@ class RestServiceProvider extends IlluminateServiceProvider
      * @Date   : 2021/7/21 4:17 下午
      * @Author : < Jason.C >
      */
-    public function register()
+    public function register(): void
     {
         $this->commands($this->commands);
 
         $this->registerRouteMiddleware();
 
-        $this->app->singleton('rest', function ($app) {
-            return new Rest();
+        $this->app->singleton('rest', function (Application $app) {
+            return new Factory($app);
         });
     }
 
@@ -66,7 +67,7 @@ class RestServiceProvider extends IlluminateServiceProvider
      * @Date   : 2021/7/21 3:29 下午
      * @Author : < Jason.C >
      */
-    public function registerRouteMiddleware()
+    public function registerRouteMiddleware(): void
     {
         foreach ($this->routeMiddleware as $key => $middleware) {
             Route::aliasMiddleware($key, $middleware);

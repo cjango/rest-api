@@ -3,6 +3,7 @@
 namespace Jason\Rest\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class RestCommand extends Command
 {
@@ -17,6 +18,9 @@ class RestCommand extends Command
 
     public function handle()
     {
+        Artisan::call('migrate');
+
+        Artisan::call('passport:install');
     }
 
 }
