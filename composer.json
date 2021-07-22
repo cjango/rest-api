@@ -16,8 +16,7 @@
         "illuminate/filesystem": "^7.0|^8.0",
         "illuminate/routing": "^8.51",
         "illuminate/support": "^7.0|^8.0",
-        "laravel/passport": "^10.1",
-        "overtrue/laravel-passport-cache-token": "^2.2"
+        "laravel/passport": "^10.1"
     },
     "autoload": {
         "psr-4": {
