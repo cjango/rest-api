@@ -2,10 +2,12 @@
 
 namespace Jason\Rest;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Jason\Rest\Http\Middleware\AcceptHeader;
+use Laravel\Passport\Passport;
 
 class RestServiceProvider extends IlluminateServiceProvider
 {
@@ -44,6 +46,10 @@ class RestServiceProvider extends IlluminateServiceProvider
         if ($this->app['config']->get('rest.passport_cache.enable')) {
             $this->app['config']->set('passport.cache', $this->app['config']->get('rest.cache'));
         }
+
+        Passport::tokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.tokens_expire_time')));
+        Passport::refreshTokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.refresh_tokens_expire')));
+        Passport::personalAccessTokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.personal_access_tokens_expire')));
     }
 
     /**
