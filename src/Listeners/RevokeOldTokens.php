@@ -2,27 +2,19 @@
 
 namespace Jason\Rest\Listeners;
 
+use Laravel\Passport\Token;
+
 class RevokeOldTokens
 {
 
     public function handle($event)
     {
-
-        dump($event);
-
-    }
-
-    public function handleCreated($event)
-    {
-        dump($event);
-    }
-
-    public function subscribe($events)
-    {
-        $events->listen(
-            'Laravel\Passport\Events\AccessTokenCreated',
-            [RevokeOldTokens::class, 'handleCreated']
-        );
+        if (config('rest.token_auto_revoke')) {
+            Token::where('user_id', $event->userId)
+                 ->where('client_id', $event->clientId)
+                 ->where('id', '<>', $event->tokenId)
+                 ->update(['revoked' => 1]);
+        }
     }
 
 }

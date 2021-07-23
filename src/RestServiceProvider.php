@@ -61,7 +61,8 @@ class RestServiceProvider extends IlluminateServiceProvider
         Passport::tokensCan($this->app['config']->get('rest.scopes'));
         Passport::setDefaultScope($this->app['config']->get('rest.default_scopes'));
 
-        $this->app['events']->subscribe(RevokeOldTokens::class);
+        $this->app['events']->listen('Laravel\Passport\Events\AccessTokenCreated', RevokeOldTokens::class);
+        $this->app['events']->listen('Laravel\Passport\Events\RefreshTokenCreated', PruneOldTokens::class);
     }
 
     /**
