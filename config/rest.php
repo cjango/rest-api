@@ -9,17 +9,17 @@ return [
      */
     'token_auto_revoke'             => env('TOKEN_AUTO_REVOKE', true),
     /**
-     * TOKEN 过期时间，这个不确定是啥
+     * TOKEN 过期时间，这个不确定是啥，单位 分钟
      */
-    'tokens_expire_time'            => env('TOKENS_EXPIRE_TIME', 60),
+    'tokens_expire_time'            => env('TOKENS_EXPIRE_TIME', 0),
     /**
-     * 可用的刷新时间
+     * 可用的刷新时间，单位 分钟
      */
-    'refresh_tokens_expire'         => env('REFRESH_TOKENS_EXPIRE', 60 * 24 * 7),
+    'refresh_tokens_expire'         => env('REFRESH_TOKENS_EXPIRE', 0),
     /**
-     * 个人TOKEN过期时间
+     * 个人TOKEN过期时间，单位 分钟
      */
-    'personal_access_tokens_expire' => env('PERSONAL_ACCESS_TOKENS_EXPIRE', 60),
+    'personal_access_tokens_expire' => env('PERSONAL_ACCESS_TOKENS_EXPIRE', 0),
 
     /**
      * 作用域的配置

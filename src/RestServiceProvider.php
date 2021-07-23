@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Jason\Rest\Http\Middleware\AcceptHeader;
+use Jason\Rest\Listeners\PruneOldTokens;
 use Jason\Rest\Listeners\RevokeOldTokens;
 use Laravel\Passport\Http\Middleware\CheckForAnyScope;
 use Laravel\Passport\Http\Middleware\CheckScopes;
@@ -52,17 +53,9 @@ class RestServiceProvider extends IlluminateServiceProvider
             $this->app['config']->set('passport.cache', $this->app['config']->get('rest.cache'));
         }
 
-        Passport::tokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.tokens_expire_time')));
-        Passport::refreshTokensExpireIn(Carbon::now()
-                                              ->addMinutes($this->app['config']->get('rest.refresh_tokens_expire')));
-        Passport::personalAccessTokensExpireIn(Carbon::now()
-                                                     ->addMinutes($this->app['config']->get('rest.personal_access_tokens_expire')));
-        // 注册令牌作用域
-        Passport::tokensCan($this->app['config']->get('rest.scopes'));
-        Passport::setDefaultScope($this->app['config']->get('rest.default_scopes'));
-
-        $this->app['events']->listen('Laravel\Passport\Events\AccessTokenCreated', RevokeOldTokens::class);
-        $this->app['events']->listen('Laravel\Passport\Events\RefreshTokenCreated', PruneOldTokens::class);
+        $this->setupTokenExpireTime();
+        $this->registerTokenScopes();
+        $this->registerTokenListeners();
     }
 
     /**
@@ -82,11 +75,55 @@ class RestServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * Notes   : 注册监听器
+     * @Date   : 2021/7/23 1:49 下午
+     * @Author : < Jason.C >
+     */
+    protected function registerTokenListeners(): void
+    {
+        $this->app['events']->listen('Laravel\Passport\Events\AccessTokenCreated', RevokeOldTokens::class);
+        $this->app['events']->listen('Laravel\Passport\Events\RefreshTokenCreated', PruneOldTokens::class);
+    }
+
+    /**
+     * Notes   : 注册令牌作用域
+     * @Date   : 2021/7/23 1:48 下午
+     * @Author : < Jason.C >
+     */
+    protected function registerTokenScopes(): void
+    {
+        Passport::tokensCan($this->app['config']->get('rest.scopes'));
+        Passport::setDefaultScope($this->app['config']->get('rest.default_scopes'));
+    }
+
+    /**
+     * Notes   : 设置令牌的过期时间
+     * @Date   : 2021/7/23 1:47 下午
+     * @Author : < Jason.C >
+     */
+    protected function setupTokenExpireTime(): void
+    {
+        if ($this->app['config']->get('rest.tokens_expire_time')) {
+            Passport::tokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.tokens_expire_time')));
+        }
+
+        if ($this->app['config']->get('rest.refresh_tokens_expire')) {
+            Passport::refreshTokensExpireIn(Carbon::now()
+                                                  ->addMinutes($this->app['config']->get('rest.refresh_tokens_expire')));
+        }
+
+        if ($this->app['config']->get('rest.personal_access_tokens_expire')) {
+            Passport::personalAccessTokensExpireIn(Carbon::now()
+                                                         ->addMinutes($this->app['config']->get('rest.personal_access_tokens_expire')));
+        }
+    }
+
+    /**
      * Notes   : 注册路由中间件
      * @Date   : 2021/7/21 3:29 下午
      * @Author : < Jason.C >
      */
-    public function registerRouteMiddleware(): void
+    protected function registerRouteMiddleware(): void
     {
         foreach ($this->routeMiddleware as $key => $middleware) {
             Route::aliasMiddleware($key, $middleware);

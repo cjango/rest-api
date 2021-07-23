@@ -20,12 +20,18 @@ class RestCommand extends Command
      */
     protected $description = 'Install the RESTful API package';
 
+    /**
+     * Notes   : 主执行程序
+     * @Date   : 2021/7/23 11:40 上午
+     * @Author : < Jason.C >
+     */
     public function handle()
     {
-        Artisan::call('migrate');
-
+        // 迁移passport的数据库
+        Artisan::call('migrate --path=vendor/laravel/passport/database/migrations');
+        // 安装passport，初始化客户端和key等操作
         Artisan::call('passport:install');
-
+        // 发布配置文件
         Artisan::call('vendor:publish --tag=rest-api-config');
     }
 
