@@ -7,6 +7,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Jason\Rest\Http\Middleware\AcceptHeader;
+use Jason\Rest\Listeners\RevokeOldTokens;
+use Laravel\Passport\Http\Middleware\CheckForAnyScope;
+use Laravel\Passport\Http\Middleware\CheckScopes;
 use Laravel\Passport\Passport;
 
 class RestServiceProvider extends IlluminateServiceProvider
@@ -26,6 +29,8 @@ class RestServiceProvider extends IlluminateServiceProvider
      */
     protected array $routeMiddleware = [
         'accept' => AcceptHeader::class,
+        'scopes' => CheckScopes::class,
+        'scope'  => CheckForAnyScope::class,
     ];
 
     /**
@@ -48,8 +53,15 @@ class RestServiceProvider extends IlluminateServiceProvider
         }
 
         Passport::tokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.tokens_expire_time')));
-        Passport::refreshTokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.refresh_tokens_expire')));
-        Passport::personalAccessTokensExpireIn(Carbon::now()->addMinutes($this->app['config']->get('rest.personal_access_tokens_expire')));
+        Passport::refreshTokensExpireIn(Carbon::now()
+                                              ->addMinutes($this->app['config']->get('rest.refresh_tokens_expire')));
+        Passport::personalAccessTokensExpireIn(Carbon::now()
+                                                     ->addMinutes($this->app['config']->get('rest.personal_access_tokens_expire')));
+        // 注册令牌作用域
+        Passport::tokensCan($this->app['config']->get('rest.scopes'));
+        Passport::setDefaultScope($this->app['config']->get('rest.default_scopes'));
+
+        $this->app['events']->subscribe(RevokeOldTokens::class);
     }
 
     /**

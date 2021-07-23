@@ -6,6 +6,7 @@ use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Passport\Passport;
 use Laravel\Passport\PersonalAccessTokenFactory;
+use Laravel\Passport\PersonalAccessTokenResult;
 use Laravel\Passport\Token;
 
 trait UserHasApiTokens
@@ -49,7 +50,7 @@ trait UserHasApiTokens
      * @param  string  $scope
      * @return bool
      */
-    public function tokenCan($scope): bool
+    public function tokenCan(string $scope): bool
     {
         return $this->accessToken && $this->accessToken->can($scope);
     }
@@ -58,12 +59,12 @@ trait UserHasApiTokens
      * Notes   : 重写的 createToken 方法，创建新的token时，自动作废之前的token
      * @Date   : 2021/7/23 10:24 上午
      * @Author : < Jason.C >
-     * @param $name
+     * @param  string  $name
      * @param  array  $scopes
      * @return \Laravel\Passport\PersonalAccessTokenResult
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function createToken($name, array $scopes = []): \Laravel\Passport\PersonalAccessTokenResult
+    public function createToken(string $name, array $scopes = []): PersonalAccessTokenResult
     {
         if (config('rest.token_auto_revoke')) {
             Token::where('user_id', $this->getKey())->update(['revoked' => 1]);

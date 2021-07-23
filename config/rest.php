@@ -22,6 +22,15 @@ return [
     'personal_access_tokens_expire' => env('PERSONAL_ACCESS_TOKENS_EXPIRE', 60),
 
     /**
+     * 作用域的配置
+     */
+    'scopes'                        => [],
+    /**
+     * 默认作用域
+     */
+    'default_scopes'                => [],
+
+    /**
      * Passport Cache Config
      */
     'passport_cache'                => [
