@@ -65,7 +65,9 @@ trait UserHasApiTokens
      */
     public function createToken($name, array $scopes = []): \Laravel\Passport\PersonalAccessTokenResult
     {
-        Token::where('user_id', $this->getKey())->update(['revoked' => 1]);
+        if (config('rest.token_auto_revoke')) {
+            Token::where('user_id', $this->getKey())->update(['revoked' => 1]);
+        }
 
         return Container::getInstance()->make(PersonalAccessTokenFactory::class)->make(
             $this->getKey(), $name, $scopes

@@ -5,6 +5,10 @@ return [
     'guard'                         => env('REST_API_GUARD', 'passport'),
 
     /**
+     * 重新登录后，自动作废以前的token
+     */
+    'token_auto_revoke'             => env('TOKEN_AUTO_REVOKE', true),
+    /**
      * TOKEN 过期时间，这个不确定是啥
      */
     'tokens_expire_time'            => env('TOKENS_EXPIRE_TIME', 60),
