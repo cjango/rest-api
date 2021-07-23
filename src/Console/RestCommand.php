@@ -12,8 +12,12 @@ class RestCommand extends Command
      * artisan 执行的命令
      * @var string
      */
-    protected $signature   = 'rest:install';
+    protected $signature = 'rest:install';
 
+    /**
+     * 命令介绍
+     * @var string
+     */
     protected $description = 'Install the RESTful API package';
 
     public function handle()
