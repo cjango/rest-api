@@ -7,15 +7,15 @@ return [
     /**
      * TOKEN 过期时间，这个不确定是啥
      */
-    'tokens_expire_time'            => env('tokens_expire_time', 60),
+    'tokens_expire_time'            => env('TOKENS_EXPIRE_TIME', 60),
     /**
      * 可用的刷新时间
      */
-    'refresh_tokens_expire'         => env('refresh_tokens_expire', 60 * 24 * 7),
+    'refresh_tokens_expire'         => env('REFRESH_TOKENS_EXPIRE', 60 * 24 * 7),
     /**
      * 个人TOKEN过期时间
      */
-    'personal_access_tokens_expire' => env('personal_access_tokens_expire', 60),
+    'personal_access_tokens_expire' => env('PERSONAL_ACCESS_TOKENS_EXPIRE', 60),
 
     /**
      * Passport Cache Config

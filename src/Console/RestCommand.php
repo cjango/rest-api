@@ -21,6 +21,8 @@ class RestCommand extends Command
         Artisan::call('migrate');
 
         Artisan::call('passport:install');
+
+        Artisan::call('vendor:publish --tag=rest-api-config');
     }
 
 }
