@@ -8,7 +8,13 @@ use Jason\Rest\Http\Response\Factory;
 trait Helper
 {
 
-    protected function response()
+    /**
+     * Notes   : 返回数据
+     * @Date   : 2021/7/26 5:32 下午
+     * @Author : < Jason.C >
+     * @return \Jason\Rest\Http\Response\Factory
+     */
+    protected function response(): Factory
     {
         return app(Factory::class);
     }

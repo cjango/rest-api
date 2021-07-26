@@ -23,9 +23,9 @@ class Factory
 
     /**
      * Notes   : 单条数据返回
-     * @Date   : 2021/7/23 4:23 下午
+     * @Date   : 2021/7/26 4:53 下午
      * @Author : < Jason.C >
-     * @param $item
+     * @param  mixed  $item
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function item($item): Response
@@ -37,7 +37,7 @@ class Factory
      * Notes   : 返回集合
      * @Date   : 2021/7/23 4:23 下午
      * @Author : < Jason.C >
-     * @param $collection
+     * @param  mixed  $collection
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function collection($collection): Response
@@ -61,10 +61,10 @@ class Factory
      * Notes   : 创建成功的返回 201
      * @Date   : 2021/7/23 4:21 下午
      * @Author : < Jason.C >
-     * @param  string|null  $message
+     * @param  mixed  $message
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function created(?string $message = null): Response
+    public function created($message = null): Response
     {
         $this->setStatusCode(Response::HTTP_CREATED);
 
@@ -73,9 +73,9 @@ class Factory
 
     /**
      * Notes   :
-     * @Date   : 2021/7/26 4:32 下午
+     * @Date   : 2021/7/26 5:29 下午
      * @Author : < Jason.C >
-     * @param  null  $content
+     * @param  mixed  $content
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function accepted($content = null): Response
@@ -105,7 +105,7 @@ class Factory
      * @param  int  $statusCode
      * @return $this
      */
-    protected function setStatusCode(int $statusCode): static
+    public function setStatusCode(int $statusCode): static
     {
         $this->statusCode = $statusCode;
 
@@ -119,7 +119,7 @@ class Factory
      * @param  array  $headers
      * @return $this
      */
-    protected function setHeaders(array $headers): static
+    public function setHeaders(array $headers): static
     {
         $this->headers = $headers;
 
@@ -130,7 +130,7 @@ class Factory
      * Notes   : 最终的返回
      * @Date   : 2021/7/26 11:01 上午
      * @Author : < Jason.C >
-     * @param  null  $content
+     * @param  mixed|null  $content
      * @return \Illuminate\Http\JsonResponse
      */
     protected function respond($content = null): JsonResponse
