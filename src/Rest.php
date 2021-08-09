@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Facade;
  * @package Jason
  * @method static \Jason\Rest\Factory userId()
  * @method static \Jason\Rest\Factory user()
+ * @method static \Jason\Rest\Factory check()
+ * @method static \Jason\Rest\Factory guest()
  */
 class Rest extends Facade
 {

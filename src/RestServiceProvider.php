@@ -7,6 +7,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Jason\Rest\Http\Middleware\AcceptHeader;
+use Jason\Rest\Http\Middleware\AuthCheck;
+use Jason\Rest\Http\Middleware\AuthGuess;
 use Jason\Rest\Listeners\PruneOldTokens;
 use Jason\Rest\Listeners\RevokeOldTokens;
 use Laravel\Passport\Http\Middleware\CheckForAnyScope;
@@ -29,9 +31,11 @@ class RestServiceProvider extends IlluminateServiceProvider
      * @var array
      */
     protected array $routeMiddleware = [
-        'accept' => AcceptHeader::class,
-        'scopes' => CheckScopes::class,
-        'scope'  => CheckForAnyScope::class,
+        'accept'     => AcceptHeader::class,
+        'scopes'     => CheckScopes::class,
+        'scope'      => CheckForAnyScope::class,
+        'auth.check' => AuthCheck::class,
+        'auth.guess' => AuthGuess::class,
     ];
 
     /**

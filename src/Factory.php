@@ -36,4 +36,26 @@ class Factory
         return $this->app['auth']->id();
     }
 
+    /**
+     * Notes   : 检测用户是否已登录
+     * @Date   : 2021/8/9 4:01 下午
+     * @Author : < Jason.C >
+     * @return mixed
+     */
+    public function check()
+    {
+        return $this->app['auth']->check();
+    }
+
+    /**
+     * Notes   : 检测是否游客登录
+     * @Date   : 2021/8/9 4:02 下午
+     * @Author : < Jason.C >
+     * @return mixed
+     */
+    public function guest()
+    {
+        return $this->app['auth']->guest();
+    }
+
 }
