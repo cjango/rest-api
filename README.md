@@ -1,6 +1,6 @@
 # RESTful API
 
-[![StyleCI](https://github.styleci.io/repos/388017996/shield?branch=main&style=flat)](https://styleci.io/repos/388017996)
+[![StyleCI](https://github.styleci.io/repos/388017996/shield?branch=master&style=flat)](https://styleci.io/repos/388017996)
 [![Build Status](https://img.shields.io/travis/jasonc/rest-api.svg)](https://packagist.org/packages/jasonc/rest-api)
 [![License](https://img.shields.io/packagist/l/jasonc/rest-api.svg)](LICENSE)
 [![Development Version](https://img.shields.io/packagist/vpre/jasonc/rest-api.svg)](https://packagist.org/packages/jasonc/rest-api)
